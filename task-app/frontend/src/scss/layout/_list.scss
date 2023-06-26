@@ -1,0 +1,119 @@
+.list-container {
+    h2{
+        color:white;
+        margin-top: 10px;
+        margin-bottom: 0px;
+    }
+
+    ul {
+        background-color: $lightPrimaryColor;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0;
+        border-radius: 8px;
+        // margin-top: 18px;
+        border: 1.5px solid black;
+        overflow: auto;
+        max-height: 200px;
+
+
+    }
+
+    li {
+        list-style: none;
+        padding: 2px 12px;
+
+    }
+}
+
+.list-item {
+    color: $primaryText;
+    border-top: 1px solid $dividerColor;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+
+
+    &:first-child {
+        border: none;
+    }
+}
+
+.list-info {
+
+    // border: 1px solid white;
+    p,
+    h3 {
+        // margin-top: 0;
+        width: 400px;
+        font-size: 16px;
+    }
+
+    p {
+        margin-bottom: 10px;
+        color: $secondaryText;
+        font-size: 12px;
+
+    }
+
+}
+
+.due-date {
+    font-size: 12px;
+    margin-left: 20px;
+
+    color: $accentColor;
+
+
+}
+
+.list-side {
+    margin-left: 80px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .list-buttons {
+        margin-top: -8px;
+    }
+
+    input {
+        margin-top: 25px;
+    }
+}
+
+.list-buttons {
+    button {
+        border: none;
+        background: none;
+
+        .FaPencil,
+        .FaTrash {
+            height: 15px;
+            width: 15px;
+            color: #faf488;
+        }
+
+        .FaTrash {
+            color: rgb(255, 105, 105);
+        }
+    }
+}
+
+.margin-side{
+margin-left: 135px;
+}
+
+.FaCheckSquare{
+    border:none;
+    background: none;
+    margin-top: 10px;
+
+    color: green;
+    
+}
+.red{
+    color: red;
+}

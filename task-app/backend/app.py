@@ -1,0 +1,74 @@
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from flask_cors import CORS
+import uuid
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/tasksdb'
+db = SQLAlchemy(app)
+ma = Marshmallow(app)
+CORS(app)
+
+class Task(db.Model):
+    uuid = db.Column(db.String(36), primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    descripcion = db.Column(db.String(200))
+    fecha = db.Column(db.String(10))
+    completado = db.Column(db.Boolean, default=False)
+
+    def __init__(self, uuid, nombre, descripcion, fecha, completado):
+        self.uuid = uuid
+        self.nombre = nombre
+        self.descripcion = descripcion
+        self.fecha = fecha
+        self.completado = completado
+
+class TaskSchema(ma.Schema):
+    class Meta:
+        fields = ('uuid', 'nombre', 'descripcion', 'fecha', 'completado')
+
+task_schema = TaskSchema()
+tasks_schema = TaskSchema(many=True)
+
+@app.route('/api/tasks', methods=['GET'])
+def get_tasks():
+    all_tasks = Task.query.all()
+    result = tasks_schema.dump(all_tasks)
+    return jsonify(result)
+
+@app.route('/api/tasks', methods=['POST'])
+def add_task():
+    uuid_str = str(uuid.uuid4())
+    nombre = request.json['nombre']
+    descripcion = request.json['descripcion']
+    fecha = request.json.get('fecha', '2023-01-01')
+    completado = request.json.get('completado', False)
+    new_task = Task(uuid=uuid_str, nombre=nombre, descripcion=descripcion, fecha=fecha, completado=completado)
+    db.session.add(new_task)
+    db.session.commit()
+    return task_schema.jsonify(new_task)
+
+@app.route('/api/tasks/<uuid>', methods=['PUT'])
+def update_task(uuid):
+    task = Task.query.get(uuid)
+    task.nombre = request.json['nombre']
+    task.descripcion = request.json['descripcion']
+    task.fecha = request.json.get('fecha', '2023-01-01')
+    task.completado = request.json['completado']
+    db.session.commit()
+    return task_schema.jsonify(task)
+
+@app.route('/api/tasks/<uuid>', methods=['DELETE'])
+def delete_task(uuid):
+    task = Task.query.get(uuid)
+    db.session.delete(task)
+    db.session.commit()
+    return task_schema.jsonify(task)
+
+with app.app_context():
+    # Crear la tabla en la base de datos
+    db.create_all()
+
+if __name__ == '__main__':
+    app.run()

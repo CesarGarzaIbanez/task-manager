@@ -1,0 +1,75 @@
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-form,
+.form-entry {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.task-form {
+    background-color: $lightPrimaryColor;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1.5px solid black;
+
+}
+
+.form-entry {
+    color: white;
+    color: $primaryText;
+
+    label {
+        text-align: left;
+    }
+
+    input,
+    textarea {
+        border: 1.5px solid black;
+        border-radius: 8px;
+        margin-top: 10px;
+
+    }
+
+    margin-top: 10px;
+
+}
+
+.type-textarea {
+    textarea {
+        resize: none;
+        width: 300px;
+        height: 200px;
+    }
+}
+
+.type-submit {
+    input {
+        border: none;
+        border-radius: 10px;
+        margin-top: 20px;
+        background-color: $accentColor;
+        border: 1.5px solid black;
+
+    }
+}
+
+.form-container {
+    margin-top: 18px;
+
+}
+
+input[type="checkbox"] {
+    width: 45px;
+    height: 15px;
+    background: #555;
+
+
+    border-radius: 5px;
+  }
+
