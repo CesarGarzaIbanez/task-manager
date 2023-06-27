@@ -73,7 +73,7 @@ export const TaskForm = ({ setTasks, selectedTask, setSelectedTask}) => {
                 </div>
 
                 <div className='form-entry type-submit'>
-                    <input type='submit' value='Submit' />
+                    <input type='submit' value='Actualizar' />
                 </div>
             </form>
         </div>
