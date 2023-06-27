@@ -15,6 +15,7 @@ export const TaskList = ({ setTasks, tasks, setSelectedTask }) => {
       .catch(error => console.log(error));
   }, []);
 
+  // Eliminación de la tarea
   const handleDelete = (taskId) => {
     fetch(`http://127.0.0.1:5000/api/tasks/${taskId}`, {
       method: 'DELETE',
@@ -46,6 +47,7 @@ export const TaskList = ({ setTasks, tasks, setSelectedTask }) => {
         console.log('Respuesta del servidor:', result);
         // Actualizar la lista de forma artificial sin reiniciar para cargar la bd
         setTasks(prevTasks => [...prevTasks.filter(task => task.uuid !== result.uuid), result]);
+        // Reiniciar la seleccion de tarea
         setSelectedTask(null);
       })
       .catch((error) => {

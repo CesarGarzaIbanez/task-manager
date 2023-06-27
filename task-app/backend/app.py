@@ -33,7 +33,7 @@ class TaskSchema(ma.Schema):
 task_schema = TaskSchema()
 tasks_schema = TaskSchema(many=True)
 
-# Metodos con su respectiva validación
+# Metodos HTTP
 @app.route('/api/tasks', methods=['GET'])
 def get_tasks():
     all_tasks = Task.query.all()
@@ -48,7 +48,7 @@ def add_task():
     completado = request.json.get('completado', False)
 
     if not nombre:
-        return jsonify(error='Nombre is required'), 400
+        return jsonify(error='El nombre es requerido'), 400
 
     uuid_str = str(uuid.uuid4())
     new_task = Task(uuid=uuid_str, nombre=nombre, descripcion=descripcion, fecha=fecha, completado=completado)
@@ -60,7 +60,7 @@ def add_task():
 def update_task(uuid):
     task = Task.query.get(uuid)
     if task is None:
-        return jsonify(error='Task not found'), 404
+        return jsonify(error='No se encuentra la tarea'), 404
 
     nombre = request.json.get('nombre')
     descripcion = request.json.get('descripcion')
@@ -68,7 +68,7 @@ def update_task(uuid):
     completado = request.json.get('completado')
 
     if not nombre:
-        return jsonify(error='Nombre is required'), 400
+        return jsonify(error='El nombre es requerido'), 400
 
     task.nombre = nombre
     task.descripcion = descripcion
@@ -81,7 +81,7 @@ def update_task(uuid):
 def delete_task(uuid):
     task = Task.query.get(uuid)
     if task is None:
-        return jsonify(error='Task not found'), 404
+        return jsonify(error='No se encuentra la tarea'), 404
 
     db.session.delete(task)
     db.session.commit()

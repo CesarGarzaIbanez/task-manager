@@ -18,6 +18,7 @@ export const TaskForm = ({ setTasks, selectedTask, setSelectedTask}) => {
         });
     }
 
+    // Cambio de la entrada a default o a la seleccionada
     useEffect(() => {
         setEntry(selectedTask || defaultEntry);
     }, [selectedTask]);
@@ -44,7 +45,9 @@ export const TaskForm = ({ setTasks, selectedTask, setSelectedTask}) => {
                 console.log('Respuesta del servidor:', result);
                 // Actualizar la lista de forma artificial sin cargar la bd
                 setTasks(prevTasks => [...prevTasks.filter(task => task.uuid !== result.uuid), result]);
+                // Reiniciar el formulario
                 setEntry(defaultEntry);
+                // Reiniciar la seleccion
                 setSelectedTask(null);
             })
             .catch((error) => {
