@@ -30,6 +30,7 @@ export const TaskList = ({ setTasks, tasks, setSelectedTask }) => {
       });
   };
 
+  // Comprobación de estado y cambio de este
   const changeState = (task) => {
     (!task.completado ? (task.completado=true):(task.completado=false))
 
