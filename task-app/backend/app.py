@@ -5,11 +5,13 @@ from flask_cors import CORS
 import uuid
 
 app = Flask(__name__)
+# Configuracion de la base de datos 'mysql+pymysql://user:password@localhost/tasksdb'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/tasksdb'
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 CORS(app)
 
+# Creación del modelo del controlador
 class Task(db.Model):
     uuid = db.Column(db.String(36), primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
@@ -31,6 +33,7 @@ class TaskSchema(ma.Schema):
 task_schema = TaskSchema()
 tasks_schema = TaskSchema(many=True)
 
+# Metodos con su respectiva validación
 @app.route('/api/tasks', methods=['GET'])
 def get_tasks():
     all_tasks = Task.query.all()

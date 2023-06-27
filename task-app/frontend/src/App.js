@@ -9,7 +9,7 @@ import { TaskList } from "./components/TaskList";
 function App() {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
-  console.log(tasks);
+
 
   return (
     <div className="App">

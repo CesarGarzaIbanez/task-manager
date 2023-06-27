@@ -26,6 +26,7 @@ export const TaskForm = ({ setTasks, selectedTask, setSelectedTask}) => {
     const getEntry = (e) => {
         e.preventDefault();
 
+        // Seleccion de metodo dependiendo de si se esta editando la tarea
         const url = selectedTask
             ? `http://127.0.0.1:5000/api/tasks/${selectedTask.uuid}`
             : 'http://127.0.0.1:5000/api/tasks';
@@ -50,7 +51,7 @@ export const TaskForm = ({ setTasks, selectedTask, setSelectedTask}) => {
                 console.error('Error en la solicitud:', error);
             });
 
-        console.log(JSON.stringify(entry));
+
     };
 
     return (

@@ -31,7 +31,7 @@ export const TaskList = ({ setTasks, tasks, setSelectedTask }) => {
   };
 
   const changeState = (task) => {
-    task.completado = true;
+    (!task.completado ? (task.completado=true):(task.completado=false))
 
     fetch(`http://127.0.0.1:5000/api/tasks/${task.uuid}`, {
       method: 'PUT',
@@ -43,7 +43,7 @@ export const TaskList = ({ setTasks, tasks, setSelectedTask }) => {
       .then((response) => response.json())
       .then((result) => {
         console.log('Respuesta del servidor:', result);
-        // Actualizar la lista de forma artificial sin cargar la bd
+        // Actualizar la lista de forma artificial sin reiniciar para cargar la bd
         setTasks(prevTasks => [...prevTasks.filter(task => task.uuid !== result.uuid), result]);
         setSelectedTask(null);
       })
@@ -51,8 +51,8 @@ export const TaskList = ({ setTasks, tasks, setSelectedTask }) => {
         console.error('Error en la solicitud:', error);
       });
 
-    console.log(JSON.stringify(task));
-    ;
+
+
   }
 
   return (
