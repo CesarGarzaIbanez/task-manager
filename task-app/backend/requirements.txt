@@ -2,3 +2,4 @@ flask
 flask-SQLAlchemy
 flask-marshmallow
 Flask-Cors
+pymysql
