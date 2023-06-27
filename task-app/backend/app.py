@@ -39,11 +39,15 @@ def get_tasks():
 
 @app.route('/api/tasks', methods=['POST'])
 def add_task():
-    uuid_str = str(uuid.uuid4())
-    nombre = request.json['nombre']
-    descripcion = request.json['descripcion']
+    nombre = request.json.get('nombre')
+    descripcion = request.json.get('descripcion')
     fecha = request.json.get('fecha', '2023-01-01')
     completado = request.json.get('completado', False)
+
+    if not nombre:
+        return jsonify(error='Nombre is required'), 400
+
+    uuid_str = str(uuid.uuid4())
     new_task = Task(uuid=uuid_str, nombre=nombre, descripcion=descripcion, fecha=fecha, completado=completado)
     db.session.add(new_task)
     db.session.commit()
@@ -52,16 +56,30 @@ def add_task():
 @app.route('/api/tasks/<uuid>', methods=['PUT'])
 def update_task(uuid):
     task = Task.query.get(uuid)
-    task.nombre = request.json['nombre']
-    task.descripcion = request.json['descripcion']
-    task.fecha = request.json.get('fecha', '2023-01-01')
-    task.completado = request.json['completado']
+    if task is None:
+        return jsonify(error='Task not found'), 404
+
+    nombre = request.json.get('nombre')
+    descripcion = request.json.get('descripcion')
+    fecha = request.json.get('fecha', '2023-01-01')
+    completado = request.json.get('completado')
+
+    if not nombre:
+        return jsonify(error='Nombre is required'), 400
+
+    task.nombre = nombre
+    task.descripcion = descripcion
+    task.fecha = fecha
+    task.completado = completado
     db.session.commit()
     return task_schema.jsonify(task)
 
 @app.route('/api/tasks/<uuid>', methods=['DELETE'])
 def delete_task(uuid):
     task = Task.query.get(uuid)
+    if task is None:
+        return jsonify(error='Task not found'), 404
+
     db.session.delete(task)
     db.session.commit()
     return task_schema.jsonify(task)
